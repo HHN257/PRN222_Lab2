@@ -1,0 +1,84 @@
+﻿@page "/ConsultationSessions/ConsultationSessionNamHhDetail/{ConsultationSessionNamHhid:int}"
+@using Microsoft.AspNetCore.Authorization
+@using QuitSmoking.Repository.NamHH.Models
+
+<div class="container py-4">
+    <h3 class="text-primary mb-4">Consultation Session Details</h3>
+
+    @if (GetConsultationSessionNamHh == null)
+    {
+        <div class="text-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="text-muted mt-2">Loading session details...</p>
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <table class="table table-bordered table-hover">
+                    <tbody>
+                        <tr>
+                            <th class="w-25">User</th>
+                            <td>@GetConsultationSessionNamHh.UserAccount?.FullName (@GetConsultationSessionNamHh.UserAccount?.Email)</td>
+                        </tr>
+                        <tr>
+                            <th>Coach</th>
+                            <td>@GetConsultationSessionNamHh.Coach?.FullName (@GetConsultationSessionNamHh.Coach?.Email)</td>
+                        </tr>
+                        <tr>
+                            <th>Session Date</th>
+                            <td>@GetConsultationSessionNamHh.SessionDate.ToString("yyyy-MM-dd")</td>
+                        </tr>
+                        <tr>
+                            <th>Duration</th>
+                            <td>@GetConsultationSessionNamHh.DurationMinutes min</td>
+                        </tr>
+                        <tr>
+                            <th>Session Topic</th>
+                            <td>@GetConsultationSessionNamHh.SessionTopic</td>
+                        </tr>
+                        <tr>
+                            <th>Completed</th>
+                            <td>@(GetConsultationSessionNamHh.IsCompleted ? "Yes" : "No")</td>
+                        </tr>
+                        <tr>
+                            <th>Rating</th>
+                            <td>@(GetConsultationSessionNamHh.Rating?.ToString() ?? "N/A")</td>
+                        </tr>
+                        <tr>
+                            <th>Created Date</th>
+                            <td>@(GetConsultationSessionNamHh.CreatedDate?.ToString("yyyy-MM-dd") ?? "N/A")</td>
+                        </tr>
+                        <tr>
+                            <th>Session Type</th>
+                            <td>@GetConsultationSessionNamHh.SessionType</td>
+                        </tr>
+                        <tr>
+                            <th>Feedback Provided</th>
+                            <td>@(GetConsultationSessionNamHh.FeedbackProvided ? "Yes" : "No")</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="d-flex justify-content-end mt-3">
+                    <a class="btn btn-secondary" href="/ConsultationSessions/ConsultationSessionNamHhList">← Back to List</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int ConsultationSessionNamHhid { get; set; }
+
+    private ConsultationSessionNamHh GetConsultationSessionNamHh;
+
+    protected override async Task OnInitializedAsync()
+    {
+        GetConsultationSessionNamHh = await _ServiceProviders.GetConsultationSessionNamHhService.GetByIdAsync(ConsultationSessionNamHhid);
+    }
+}

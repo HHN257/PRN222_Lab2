@@ -1,0 +1,18 @@
+﻿@using System.Net.Http
+@using System.Net.Http.Json
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.JSInterop
+@using QuitSmoking.BlazorWebApp.NamHH
+@using QuitSmoking.BlazorWebApp.NamHH.Components
+@using QuitSmoking.Service.NamHH
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Authorization
+
+@inject NavigationManager NavigationManager;
+@inject IServiceProviders _ServiceProviders;
+@inject IJSRuntime JsRuntime
+@inject ISystemUserAccountService SystemUserAccountService

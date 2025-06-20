@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\QuitSmoking.Service.NamHH\QuitSmoking.Service.NamHH.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\Account\" />
+    <Folder Include="Components\Authentication\" />
+  </ItemGroup>
+
+</Project>

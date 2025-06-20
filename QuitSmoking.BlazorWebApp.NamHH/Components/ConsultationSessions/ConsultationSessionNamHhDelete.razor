@@ -1,0 +1,85 @@
+﻿@page "/ConsultationSessions/ConsultationSessionNamHhDelete/{ConsultationSessionNamHhid:int}"
+@using Microsoft.AspNetCore.Authorization
+@inject NavigationManager NavigationManager
+@inject IServiceProviders _ServiceProviders
+@using QuitSmoking.Repository.NamHH.Models
+
+<div class="container py-4">
+    <h3 class="text-danger mb-4">Delete Consultation Session</h3>
+
+    @if (session == null || userAccounts == null || coachAccounts == null)
+    {
+        <div class="text-center">
+            <div class="spinner-border text-danger" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="text-muted mt-2">Loading session details...</p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong>Are you sure you want to delete this consultation session?</strong><br />
+            This action cannot be undone.
+        </div>
+
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">User</dt>
+                    <dd class="col-sm-9">@userAccounts.FirstOrDefault(u => u.UserAccountId == session.UserAccountId)?.FullName</dd>
+
+                    <dt class="col-sm-3">Coach</dt>
+                    <dd class="col-sm-9">@coachAccounts.FirstOrDefault(c => c.UserAccountId == session.CoachId)?.FullName</dd>
+
+                    <dt class="col-sm-3">Session Date</dt>
+                    <dd class="col-sm-9">@session.SessionDate.ToString("yyyy-MM-dd")</dd>
+
+                    <dt class="col-sm-3">Topic</dt>
+                    <dd class="col-sm-9">@session.SessionTopic</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-danger me-2" @onclick="DeleteSession">
+                <i class="bi bi-trash"></i> Delete
+            </button>
+            <button class="btn btn-secondary" @onclick="GoBack">
+                <i class="bi bi-arrow-left"></i> Cancel
+            </button>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int ConsultationSessionNamHhid { get; set; }
+
+    private ConsultationSessionNamHh session;
+    private List<SystemUserAccount> userAccounts;
+    private List<SystemUserAccount> coachAccounts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var allAccounts = (await _ServiceProviders.GetSystemUserAccountService.GetAllUserAccountsAsync()).ToList();
+        userAccounts = allAccounts.Where(u => u.RoleId == 1).ToList();
+        coachAccounts = allAccounts.Where(u => u.RoleId == 2).ToList();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        session = await _ServiceProviders.GetConsultationSessionNamHhService.GetByIdAsync(ConsultationSessionNamHhid);
+    }
+
+    private async Task DeleteSession()
+    {
+        await _ServiceProviders.GetConsultationSessionNamHhService.RemoveAsync(ConsultationSessionNamHhid);
+        NavigationManager.NavigateTo("/ConsultationSessions/ConsultationSessionNamHhList");
+    }
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/ConsultationSessions/ConsultationSessionNamHhList");
+    }
+}

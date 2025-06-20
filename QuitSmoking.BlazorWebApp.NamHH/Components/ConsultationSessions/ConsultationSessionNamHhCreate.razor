@@ -1,0 +1,162 @@
+﻿@page "/ConsultationSessions/ConsultationSessionNamHhCreate"
+@using Microsoft.AspNetCore.Authorization
+@using QuitSmoking.Repository.NamHH.Models
+@inject NavigationManager NavigationManager
+
+<h3>Tạo mới buổi tư vấn</h3>
+
+@if (sessionModel == null)
+{
+    <p>Đang tải dữ liệu...</p>
+}
+else
+{
+    <EditForm Model="sessionModel" FormName="ConsultationSessionForm" OnValidSubmit="async () => await SaveConsultationSession()">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Thông tin buổi tư vấn</h4>
+            </div>
+            <div class="card-body">
+                <!-- Row: User ID + Coach ID -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label>User</label>
+                        <InputSelect class="form-control" @bind-Value="sessionModel.UserAccountId">
+                            <option value="">-- Chọn người dùng --</option>
+                            @if (userAccounts != null)
+                            {
+                                @foreach (var user in userAccounts)
+                                {
+                                    <option value="@user.UserAccountId">@user.FullName</option>
+                                }
+                            }
+                        </InputSelect>
+                        <ValidationMessage For="@(() => sessionModel.UserAccountId)" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label>Coach</label>
+                        <InputSelect class="form-control" @bind-Value="sessionModel.CoachId">
+                            <option value="">-- Chọn coach --</option>
+                            @if (coachAccounts != null)
+                            {
+                                @foreach (var coach in coachAccounts)
+                                {
+                                    <option value="@coach.UserAccountId">@coach.FullName</option>
+                                }
+                            }
+                        </InputSelect>
+                        <ValidationMessage For="@(() => sessionModel.CoachId)" />
+                    </div>
+                </div>
+
+                <!-- Row: Session Date + Duration -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label>Ngày tư vấn</label>
+                        <InputDate class="form-control" @bind-Value="sessionModel.SessionDate" />
+                        <ValidationMessage For="@(() => sessionModel.SessionDate)" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label>Thời lượng (phút)</label>
+                        <InputNumber class="form-control" @bind-Value="sessionModel.DurationMinutes" />
+                        <ValidationMessage For="@(() => sessionModel.DurationMinutes)" />
+                    </div>
+                </div>
+
+                <!-- Row: Session Topic + Rating -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label>Chủ đề</label>
+                        <InputText class="form-control" @bind-Value="sessionModel.SessionTopic" />
+                        <ValidationMessage For="@(() => sessionModel.SessionTopic)" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label>Đánh giá</label>
+                        <InputNumber class="form-control" @bind-Value="sessionModel.Rating" />
+                        <ValidationMessage For="@(() => sessionModel.Rating)" />
+                    </div>
+                </div>
+
+                <!-- Row: Created Date + Session Type -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label>Ngày tạo</label>
+                        <InputDate class="form-control" @bind-Value="sessionModel.CreatedDate" />
+                        <ValidationMessage For="@(() => sessionModel.CreatedDate)" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label>Loại phiên</label>
+                        <InputSelect class="form-control" @bind-Value="sessionModel.SessionType">
+                            <option value="">-- Chọn loại phiên --</option>
+                            <option value="Online">Online</option>
+							<option value="Offline">Offline</option>
+                            </InputSelect>
+                        <ValidationMessage For="@(() => sessionModel.SessionType)" />
+                    </div>
+                </div>
+
+                <!-- Checkboxes -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="form-check">
+                            <InputCheckbox class="form-check-input" @bind-Value="sessionModel.IsCompleted" />
+                            <label class="form-check-label">Hoàn thành</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form-check">
+                            <InputCheckbox class="form-check-input" @bind-Value="sessionModel.FeedbackProvided" />
+                            <label class="form-check-label">Đã phản hồi</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="mt-4">
+                    <button class="btn btn-success" type="submit">Lưu</button>
+                    <a class="btn btn-secondary ms-2" href="/ConsultationSessions/ConsultationSessionNamHhList">Quay về</a>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}
+
+@code {
+    private ConsultationSessionNamHh sessionModel = new();
+    private List<SystemUserAccount> userAccounts;
+    private List<SystemUserAccount> coachAccounts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        sessionModel = new ConsultationSessionNamHh
+        {
+            SessionDate = DateTime.Today,
+            CreatedDate = DateTime.Now,
+            IsCompleted = false,
+            FeedbackProvided = false
+        };
+
+        var allAccounts = (await _ServiceProviders.GetSystemUserAccountService.GetAllUserAccountsAsync()).ToList();
+        // TODO: Replace 1 and 2 with the actual RoleId values for user and coach
+        userAccounts = allAccounts.Where(u => u.RoleId == 1).ToList();
+        coachAccounts = allAccounts.Where(u => u.RoleId == 2).ToList();
+    }
+
+    private async Task SaveConsultationSession()
+    {
+        sessionModel.CreatedDate = DateTime.Now;
+        int result = await _ServiceProviders.GetConsultationSessionNamHhService.CreateAsync(sessionModel);
+
+        if (result > 0)
+        {
+            NavigationManager.NavigateTo("/ConsultationSessions/ConsultationSessionNamHhList");
+        }
+        else
+        {
+            Console.WriteLine("Tạo mới thất bại.");
+        }
+    }
+}

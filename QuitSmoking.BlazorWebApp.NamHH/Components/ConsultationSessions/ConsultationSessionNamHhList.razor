@@ -1,0 +1,246 @@
+﻿@page "/ConsultationSessions/ConsultationSessionNamHhList"
+@using Microsoft.AspNetCore.Authorization
+@using QuitSmoking.Repository.NamHH.Models
+
+<div class="container py-4">
+    <h3 class="mb-4 text-primary">Consultation Sessions</h3>
+
+    @if (isLoading)
+    {
+        <div class="text-center py-5">
+            <img src="images/loading.gif" alt="Loading..." class="img-fluid" style="width: 100px;" />
+            <p class="text-muted fst-italic mt-2">Loading data, please wait...</p>
+        </div>
+    }
+    else
+    {
+        <!-- Top Controls: Create & Page Size -->
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+            <button class="btn btn-primary mb-2" @onclick="GoToCreate">+ Create New Session</button>
+
+            <div class="d-flex align-items-center mb-2">
+                <label class="me-2 mb-0">Items per page:</label>
+                <select class="form-select form-select-sm w-auto" @bind="pageSize">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Search -->
+        <div class="mb-3">
+            <input class="form-control form-control-sm" placeholder="Search by User Email, Coach Email, or Topic..." @bind="searchTerm" @bind:event="oninput" />
+        </div>
+
+        <!-- Table -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-primary text-center">
+                    <tr>
+                        <th>User Email</th>
+                        <th>Coach Email</th>
+                        <th>Session Date</th>
+                        <th>Duration</th>
+                        <th>Topic</th>
+                        <th>Completed</th>
+                        <th>Rating</th>
+                        <th>Created</th>
+                        <th>Type</th>
+                        <th>Feedback</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (consultationSessionsNamHhs != null && consultationSessionsNamHhs.Count > 0)
+                    {
+                        @foreach (var consultation in consultationSessionsNamHhs)
+                        {
+                            <tr class="@((consultation.IsCompleted == true) ? "table-success" : "")">
+                                <td>@consultation.UserAccount?.Email</td>
+                                <td>@consultation.Coach?.Email</td>
+                                <td>@consultation.SessionDate.ToString("yyyy-MM-dd")</td>
+                                <td>@consultation.DurationMinutes min</td>
+                                <td>@consultation.SessionTopic</td>
+                                <td class="text-center">@(consultation.IsCompleted ? "Yes" : "No")</td>
+                                <td class="text-center">@(consultation.Rating?.ToString() ?? "N/A")</td>
+                                <td>@(consultation.CreatedDate?.ToString("yyyy-MM-dd") ?? "N/A")</td>
+                                <td>@consultation.SessionType</td>
+                                <td class="text-center">@(consultation.FeedbackProvided ? "Yes" : "No")</td>
+                                <td>
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <a class="btn btn-info" href="/ConsultationSessions/ConsultationSessionNamHhDetail/@consultation.ConsultationSessionNamHhid">Detail</a>
+                                        <a class="btn btn-warning" href="/ConsultationSessions/ConsultationSessionNamHhForm/@consultation.ConsultationSessionNamHhid">Edit</a>
+                                        <a class="btn btn-danger" href="/ConsultationSessions/ConsultationSessionNamHhDelete/@consultation.ConsultationSessionNamHhid">Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr><td colspan="11" class="text-center">No records found.</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
+            <div class="text-muted mb-2">
+                Showing @(((currentPage - 1) * pageSize) + 1) to @Math.Min(currentPage * pageSize, totalItems) of @totalItems entries
+            </div>
+
+            <nav class="mb-2">
+                <ul class="pagination pagination-sm mb-0">
+                    <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                        <button class="page-link" @onclick="() => ChangePage(1)">First</button>
+                    </li>
+                    <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                        <button class="page-link" @onclick="() => ChangePage(currentPage - 1)">Previous</button>
+                    </li>
+                    @{
+                        var startPage = Math.Max(1, currentPage - 2);
+                        var endPage = Math.Min(TotalPages, currentPage + 2);
+                    }
+                    @for (var i = startPage; i <= endPage; i++)
+                    {
+                        <li class="page-item @(currentPage == i ? "active" : "")">
+                            <button class="page-link" @onclick="() => ChangePage(i)">@i</button>
+                        </li>
+                    }
+                    <li class="page-item @(currentPage == TotalPages ? "disabled" : "")">
+                        <button class="page-link" @onclick="() => ChangePage(currentPage + 1)">Next</button>
+                    </li>
+                    <li class="page-item @(currentPage == TotalPages ? "disabled" : "")">
+                        <button class="page-link" @onclick="() => ChangePage(TotalPages)">Last</button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    }
+</div>
+
+
+@code {
+    private List<ConsultationSessionNamHh> consultationSessionsNamHhs = new();
+    private int currentPage = 1;
+    private int _pageSize = 10;
+    private int pageSize
+    {
+        get => _pageSize;
+        set
+        {
+            if (_pageSize != value)
+            {
+                _pageSize = value;
+                currentPage = 1;
+                _ = LoadDataAsync();
+            }
+        }
+    }
+    private int totalItems = 0;
+    private string _searchTerm = string.Empty;
+    private string searchTerm
+    {
+        get => _searchTerm;
+        set
+        {
+            if (_searchTerm != value)
+            {
+                _searchTerm = value;
+                DebounceSearch();
+            }
+        }
+    }
+    private bool isLoading = true;
+
+    private int TotalPages => (int)Math.Ceiling(totalItems / (double)pageSize);
+
+    private System.Timers.Timer? _debounceTimer;
+
+    private void DebounceSearch()
+    {
+        _debounceTimer?.Stop();
+        _debounceTimer?.Dispose();
+        _debounceTimer = new System.Timers.Timer(400); // 400ms debounce
+        _debounceTimer.Elapsed += async (_, __) =>
+        {
+            _debounceTimer?.Stop();
+            _debounceTimer?.Dispose();
+            _debounceTimer = null;
+            await InvokeAsync(async () =>
+            {
+                currentPage = 1;
+                await LoadDataAsync();
+                StateHasChanged();
+            });
+        };
+        _debounceTimer.AutoReset = false;
+        _debounceTimer.Start();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadDataAsync();
+    }
+
+    private async Task LoadDataAsync()
+    {
+        isLoading = true;
+        StateHasChanged();
+        // Call the paginated search method from the service
+        var result = await _ServiceProviders.GetConsultationSessionNamHhService.SearchAsync(
+            memberId: null, // Add filter if needed
+            coachId: null,  // Add filter if needed
+            rating: 0,      // Add filter if needed
+            searchTerm: searchTerm,
+            pageNumber: currentPage,
+            pageSize: pageSize
+        );
+        consultationSessionsNamHhs = result.Items;
+        totalItems = result.TotalCount;
+        isLoading = false;
+        StateHasChanged();
+    }
+
+    private async Task OnPageSizeChanged(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out var newSize))
+        {
+            pageSize = newSize;
+            currentPage = 1;
+            await LoadDataAsync();
+        }
+    }
+
+    private async Task ChangePage(int page)
+    {
+        if (page >= 1 && page <= TotalPages)
+        {
+            currentPage = page;
+            await LoadDataAsync();
+        }
+    }
+
+    private void GoToDetail(int sessionId)
+    {
+        NavigationManager.NavigateTo($"/ConsultationSessions/ConsultationSessionNamHhDetail/{sessionId}");
+    }
+
+    private void GoToEdit(int sessionId)
+    {
+        NavigationManager.NavigateTo($"/ConsultationSessions/ConsultationSessionNamHhForm/{sessionId}");
+    }
+
+    private void GoToDelete(int sessionId)
+    {
+        NavigationManager.NavigateTo($"/ConsultationSessions/ConsultationSessionNamHhDelete/{sessionId}");
+    }
+
+    private void GoToCreate()
+    {
+        NavigationManager.NavigateTo("/ConsultationSessions/ConsultationSessionNamHhCreate");
+    }
+}
