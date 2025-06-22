@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components.Authorization;
 using QuitSmoking.BlazorWebApp.NamHH.Components;
+using QuitSmoking.BlazorWebApp.NamHH.Components.Authentication;
 using QuitSmoking.Repository.NamHH;
 using QuitSmoking.Service.NamHH;
 
@@ -10,43 +11,36 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddServerSideBlazor()
-    .AddCircuitOptions(options =>
-    {
-        options.DetailedErrors = true;
-    });
+//builder.Services.AddServerSideBlazor()
+//    .AddCircuitOptions(options =>
+//    {
+//        options.DetailedErrors = true;
+//    });
 
 
-builder.Services.AddHttpContextAccessor();
-
-builder.Services.AddScoped<IServiceProviders, ServiceProviders>();
-
-builder.Services.AddScoped<ISystemUserAccountService, SystemUserAccountService>();
-
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+//builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         options.LoginPath = "/login";
-        options.LogoutPath = "/logout";
-        //options.AccessDeniedPath = "/access-denied";
+
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+
+        options.AccessDeniedPath = "/access-denied";
     });
 
 builder.Services.AddAuthorizationCore();
 
-builder.Services.AddAuthorization();
+builder.Services.AddScoped<IServiceProviders, ServiceProviders>();
+builder.Services.AddScoped<ISystemUserAccountService, SystemUserAccountService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+
+//builder.Services.AddAuthorization();
+
 
 var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage(); // Shows detailed errors
-}
-else
-{
-    app.UseExceptionHandler("/Error"); // Show friendly error page
-}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -61,8 +55,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();

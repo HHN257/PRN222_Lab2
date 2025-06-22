@@ -21,6 +21,7 @@ D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.Repository.NamHH\obj\Debug\net8.0\QuitSmoking.Repository.NamHH.AssemblyInfoInputs.cache
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.Repository.NamHH\obj\Debug\net8.0\QuitSmoking.Repository.NamHH.AssemblyInfo.cs
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.Repository.NamHH\obj\Debug\net8.0\QuitSmoking.Repository.NamHH.csproj.CoreCompileInputs.cache
+D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.Repository.NamHH\obj\Debug\net8.0\QuitSmoking.Repository.NamHH.sourcelink.json
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.Repository.NamHH\obj\Debug\net8.0\QuitSmoking.Repository.NamHH.dll
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.Repository.NamHH\obj\Debug\net8.0\refint\QuitSmoking.Repository.NamHH.dll
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.Repository.NamHH\obj\Debug\net8.0\QuitSmoking.Repository.NamHH.pdb

@@ -10,9 +10,4 @@
     <ProjectReference Include="..\QuitSmoking.Service.NamHH\QuitSmoking.Service.NamHH.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Components\Account\" />
-    <Folder Include="Components\Authentication\" />
-  </ItemGroup>
-
 </Project>

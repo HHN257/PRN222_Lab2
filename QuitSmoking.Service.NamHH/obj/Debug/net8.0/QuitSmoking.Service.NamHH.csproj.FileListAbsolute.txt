@@ -23,6 +23,7 @@ D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.Service.NamHH\obj\Debug\net8.0\QuitSmoking.Service.NamHH.AssemblyInfoInputs.cache
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.Service.NamHH\obj\Debug\net8.0\QuitSmoking.Service.NamHH.AssemblyInfo.cs
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.Service.NamHH\obj\Debug\net8.0\QuitSmoking.Service.NamHH.csproj.CoreCompileInputs.cache
+D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.Service.NamHH\obj\Debug\net8.0\QuitSmoking.Service.NamHH.sourcelink.json
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.Service.NamHH\obj\Debug\net8.0\QuitSmok.E2F460DA.Up2Date
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.Service.NamHH\obj\Debug\net8.0\QuitSmoking.Service.NamHH.dll
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.Service.NamHH\obj\Debug\net8.0\refint\QuitSmoking.Service.NamHH.dll

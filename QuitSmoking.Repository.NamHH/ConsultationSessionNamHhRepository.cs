@@ -80,6 +80,25 @@ namespace QuitSmoking.Repository.NamHH
             return new PaginatedList<ConsultationSessionNamHh>(items, totalCount);
         }
 
+        public async Task<int> UpdateAsync(ConsultationSessionNamHh ConsultationSessionNamHh)
+        {
+
+            ConsultationSessionNamHh.UserAccount = null;
+            ConsultationSessionNamHh.Coach = null;
+            _context.ConsultationSessionNamHhs.Update(ConsultationSessionNamHh);
+            var rowsAffected = await _context.SaveChangesAsync();
+
+            // Optional: Only query the updated entity if needed after saving
+            var result = await _context.ConsultationSessionNamHhs
+                .Include(c => c.SessionFeedbackNamHhs)
+                .Include(r => r.UserAccount)
+                .Include(r => r.Coach)
+                .FirstOrDefaultAsync(d => d.ConsultationSessionNamHhid == ConsultationSessionNamHh.ConsultationSessionNamHhid);
+
+            return rowsAffected;
+        }
+
+
 
     }
 }

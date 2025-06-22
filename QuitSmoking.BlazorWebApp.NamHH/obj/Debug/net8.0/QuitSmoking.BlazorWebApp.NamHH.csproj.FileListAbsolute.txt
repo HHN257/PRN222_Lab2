@@ -1,3 +1,10 @@
+D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\obj\Debug\net8.0\QuitSmoking.BlazorWebApp.NamHH.csproj.AssemblyReference.cache
+D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\obj\Debug\net8.0\QuitSmoking.BlazorWebApp.NamHH.GeneratedMSBuildEditorConfig.editorconfig
+D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\obj\Debug\net8.0\QuitSmoking.BlazorWebApp.NamHH.AssemblyInfoInputs.cache
+D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\obj\Debug\net8.0\QuitSmoking.BlazorWebApp.NamHH.AssemblyInfo.cs
+D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\obj\Debug\net8.0\QuitSmoking.BlazorWebApp.NamHH.csproj.CoreCompileInputs.cache
+D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\obj\Debug\net8.0\QuitSmoking.BlazorWebApp.NamHH.MvcApplicationPartsAssemblyInfo.cache
+D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\obj\Debug\net8.0\QuitSmoking.BlazorWebApp.NamHH.sourcelink.json
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\bin\Debug\net8.0\appsettings.Development.json
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\bin\Debug\net8.0\appsettings.json
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\bin\Debug\net8.0\QuitSmoking.BlazorWebApp.NamHH.staticwebassets.runtime.json
@@ -49,12 +56,6 @@ D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\bin\Debug\net8.0\QuitSmoking.Service.NamHH.dll
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\bin\Debug\net8.0\QuitSmoking.Service.NamHH.pdb
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\bin\Debug\net8.0\QuitSmoking.Repository.NamHH.pdb
-D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\obj\Debug\net8.0\QuitSmoking.BlazorWebApp.NamHH.csproj.AssemblyReference.cache
-D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\obj\Debug\net8.0\QuitSmoking.BlazorWebApp.NamHH.GeneratedMSBuildEditorConfig.editorconfig
-D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\obj\Debug\net8.0\QuitSmoking.BlazorWebApp.NamHH.AssemblyInfoInputs.cache
-D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\obj\Debug\net8.0\QuitSmoking.BlazorWebApp.NamHH.AssemblyInfo.cs
-D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\obj\Debug\net8.0\QuitSmoking.BlazorWebApp.NamHH.csproj.CoreCompileInputs.cache
-D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\obj\Debug\net8.0\QuitSmoking.BlazorWebApp.NamHH.MvcApplicationPartsAssemblyInfo.cache
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\obj\Debug\net8.0\scopedcss\Components\Layout\MainLayout.razor.rz.scp.css
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\obj\Debug\net8.0\scopedcss\Components\Layout\NavMenu.razor.rz.scp.css
 D:\Documents\7th\PRN222\ASM2\SU25_PRN222_SE1709_ASM2_SE183282_NamHH\QuitSmoking.BlazorWebApp.NamHH\obj\Debug\net8.0\scopedcss\bundle\QuitSmoking.BlazorWebApp.NamHH.styles.css

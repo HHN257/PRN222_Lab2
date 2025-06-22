@@ -2,6 +2,7 @@
 =@using Microsoft.AspNetCore.Authorization
 @using QuitSmoking.Repository.NamHH.Models
 @inject NavigationManager NavigationManager
+@attribute [Authorize]
 
 <h3>@(IsEditMode ? "Chỉnh sửa buổi tư vấn" : "Tạo mới buổi tư vấn")</h3>
 
@@ -25,13 +26,25 @@ else
                 <!-- Row: User ID + Coach ID -->
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label>User ID</label>
-                        <InputNumber class="form-control" @bind-Value="sessionModel.UserAccountId" />
+                        <label>User</label>
+                        <InputSelect class="form-control" @bind-Value="sessionModel.UserAccountId">
+                            <option value="">-- Chọn người dùng --</option>
+                            @foreach (var user in userAccounts)
+                            {
+                                <option value="@user.UserAccountId">@user.FullName (@user.Email)</option>
+                            }
+                        </InputSelect>
                         <ValidationMessage For="@(() => sessionModel.UserAccountId)" />
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label>Coach ID</label>
-                        <InputNumber class="form-control" @bind-Value="sessionModel.CoachId" />
+                        <label>Coach</label>
+                        <InputSelect class="form-control" @bind-Value="sessionModel.CoachId">
+                            <option value="">-- Chọn huấn luyện viên --</option>
+                            @foreach (var coach in coachAccounts)
+                            {
+                                <option value="@coach.UserAccountId">@coach.FullName (@coach.Email)</option>
+                            }
+                        </InputSelect>
                         <ValidationMessage For="@(() => sessionModel.CoachId)" />
                     </div>
                 </div>
@@ -109,11 +122,21 @@ else
     public int? ConsultationSessionNamHhid { get; set; }
 
     private ConsultationSessionNamHh sessionModel = new();
+    private List<SystemUserAccount> allUsers = new();
+    private List<SystemUserAccount> userAccounts = new();
+    private List<SystemUserAccount> coachAccounts = new();
 
     private bool IsEditMode => ConsultationSessionNamHhid.HasValue && ConsultationSessionNamHhid > 0;
 
     protected override async Task OnInitializedAsync()
     {
+        // Fetch all users
+        allUsers = (await _ServiceProviders.GetSystemUserAccountService.GetAllUserAccountsAsync()).ToList();
+
+        // Filter by RoleId (adjust RoleId values as needed)
+        userAccounts = allUsers.Where(u => u.RoleId == 1).ToList();   // Example: RoleId == 1 for users
+        coachAccounts = allUsers.Where(u => u.RoleId == 2).ToList();  // Example: RoleId == 2 for coaches
+
         if (IsEditMode)
         {
             sessionModel = await _ServiceProviders.GetConsultationSessionNamHhService.GetByIdAsync(ConsultationSessionNamHhid.Value);
